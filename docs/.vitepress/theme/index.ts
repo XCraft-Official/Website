@@ -1,5 +1,6 @@
 /* .vitepress/theme/index.ts */
 import DefaultTheme from 'vitepress/theme'
+import './style/index.scss'
 import { watch } from 'vue'
 import { useRouter } from 'vitepress'
 
