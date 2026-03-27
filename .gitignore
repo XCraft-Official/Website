@@ -7,3 +7,5 @@
 *.tsbuildinfo
 .idea
 .vscode
+docs/.vitepress/cache
+docs/.vitepress/dist
