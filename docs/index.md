@@ -7,7 +7,7 @@ hero:
   text: "Official Website"
   tagline: 生存 · 玩法 · 社区
   image:
-    src: /logo.png
+    src: ./logo.png
     alt: XCraft
   actions:
     - theme: brand
