@@ -8,6 +8,16 @@
 @use './hideen.scss';
 @use './marker.scss';
 @use './scoll.scss';
-@use './custom_fonts.scss';
 
+
+
+
+
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/2.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
