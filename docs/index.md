@@ -21,7 +21,8 @@ features:
   - icon: 🛡️
     title: 数据安全
     details: 服务器设有数据自动备份、权限管理、数据恢复等机制保障玩家数据安全.
-  - title: 🔗
+  - icon: 🔗
+    title: 多服链接
     details: 旗下多服链接，可快捷加入其他玩法服务器.
 ---
 
