@@ -1,0 +1,16 @@
+// 定义变量
+$hover-lift-distance: -5px;
+$transition-duration: 0.3s;
+$transition-timing: ease;
+
+.VPFeatures {
+  .items {
+    .item {
+      transition: transform $transition-duration $transition-timing;
+      
+      &:hover {
+        transform: translateY($hover-lift-distance);
+      }
+    }
+  }
+}

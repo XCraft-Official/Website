@@ -1,0 +1,87 @@
+// 文件：_animations.scss
+// 彩虹动画定义
+
+// 彩虹动画关键帧
+@keyframes rainbow {
+  // 生成彩虹动画关键帧的函数
+  // 这个函数会生成从蓝到紫的平滑过渡
+  $color-steps: 80; // 总关键帧数
+  $step-percent: 100% / $color-steps; // 每步的百分比
+
+  // 定义彩虹色序列
+  $rainbow-colors: (
+    #009ff7, #009dfa, #009bfc, #0098fd, #0096fd, #0093fd, #2e90fc, #4d8dfa,
+    #638af8, #7587f5, #8583f1, #9280ed, #9f7ce9, #aa78e3, #b574dd, #be71d7,
+    #c76dd1, #cf69c9, #d566c2, #dc63ba, #e160b3, #e65eab, #e95ca2, #ed5a9a,
+    #ef5992, #f15989, #f25981, #f25a79, #f25c71, #f15e69, #ef6061, #ed635a,
+    #eb6552, #e8694b, #e46c44, #e06f3d, #db7336, #d77630, #d17a2a, #cc7d24,
+    #c6811e, #bf8418, #b98713, #b28a0f, #ab8d0c, #a3900b, #9c920d, #949510,
+    #8b9715, #83991b, #7a9b21, #719d27, #679e2e, #5da035, #51a13c, #44a244,
+    #34a44b, #1ba553, #00a65b, #00a663, #00a76c, #00a874, #00a87d, #00a985,
+    #00a98e, #00a996, #00a99f, #00a9a7, #00a9b0, #00a9b8, #00a9c0, #00a8c7,
+    #00a8cf, #00a7d5, #00a6dc, #00a6e2, #00a4e7, #00a3ec, #00a2f1, #00a0f4
+  );
+
+  // 生成关键帧
+  @for $i from 0 through $color-steps {
+    $current-percent: $i * $step-percent;
+    $current-index: $i % length($rainbow-colors);
+    $next-index: ($i + 1) % length($rainbow-colors);
+    
+    $prev-color: nth($rainbow-colors, $current-index + 1);
+    $next-color: nth($rainbow-colors, $next-index + 1);
+    
+    #{$current-percent} {
+      --rainbow-prev: #{$prev-color};
+      --rainbow-next: #{$next-color};
+    }
+  }
+}
+
+// 彩虹色卡变量
+:root {
+  // 初始颜色变量
+  --rainbow-prev: #009ff7;
+  --rainbow-next: #c76dd1;
+  
+  // 如果需要应用动画，取消注释下一行
+  animation: rainbow 8s linear infinite;
+  
+  // hero标题渐变色
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, var(--rainbow-prev) 30%, var(--rainbow-next));
+  
+  // hero logo背景渐变色
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, var(--rainbow-prev) 30%, var(--rainbow-next));
+  --vp-home-hero-image-filter: blur(80px);
+}
+
+// 可选：创建混合宏来应用彩虹动画
+@mixin rainbow-animation($duration: 8s, $timing: linear, $iteration: infinite) {
+  animation: rainbow $duration $timing $iteration;
+}
+
+@mixin rainbow-gradient-text {
+  background: linear-gradient(120deg, var(--rainbow-prev) 30%, var(--rainbow-next));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@mixin rainbow-gradient-bg($angle: -45deg) {
+  background-image: linear-gradient($angle, var(--rainbow-prev) 30%, var(--rainbow-next));
+}
+
+// 使用示例
+/*
+.element-with-rainbow-text {
+  @include rainbow-gradient-text;
+  @include rainbow-animation(8s, linear, infinite);
+}
+
+.element-with-rainbow-bg {
+  @include rainbow-gradient-bg;
+  filter: blur(80px);
+}
+*/

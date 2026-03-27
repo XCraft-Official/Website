@@ -1,0 +1,14 @@
+// 定义渐变变量
+$gradient-primary: linear-gradient(10deg, #bd34fe 5%, #e43498 15%);
+
+.VPDoc {
+  h1 {
+    background: $gradient-primary;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    // 如果需要跨浏览器支持，可以添加标准属性
+    // text-fill-color: transparent; // 标准属性（目前支持有限）
+  }
+}

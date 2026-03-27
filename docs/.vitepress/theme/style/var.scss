@@ -1,0 +1,54 @@
+// 文件：_variables.scss
+// 定义颜色主题映射
+$color-themes: (
+  light: (
+    brand-1: #18794e,
+    brand-2: #299764,
+    brand-3: #30a46c,
+  ),
+  dark: (
+    brand-1: #3dd68c,
+    brand-2: #30a46c,
+    brand-3: #298459,
+  ),
+);
+
+// 定义渐变变量
+$gradients: (
+  hero-name: linear-gradient(120deg, #bd34fe, #41d1ff),
+  hero-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%),
+);
+
+// 定义其他变量
+$hero-image-filter: blur(40px);
+
+// 混合：应用颜色主题
+@mixin apply-color-theme($theme) {
+  $colors: map-get($color-themes, $theme);
+  
+  --vp-c-brand-1: #{map-get($colors, brand-1)};
+  --vp-c-brand-2: #{map-get($colors, brand-2)};
+  --vp-c-brand-3: #{map-get($colors, brand-3)};
+}
+
+// 混合：应用渐变样式
+@mixin apply-gradient-styles {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: #{map-get($gradients, 'hero-name')};
+  --vp-home-hero-image-background-image: #{map-get($gradients, 'hero-image')};
+  --vp-home-hero-image-filter: #{$hero-image-filter};
+}
+
+// 主样式
+:root {
+  @include apply-color-theme('light');
+  @include apply-gradient-styles;
+  
+  /* 弃用变量提示（如果需要） */
+  /* --vp-c-brand: #{map-get(map-get($color-themes, 'light'), brand-1)}; 已弃用 */
+}
+
+.dark {
+  @include apply-color-theme('dark');
+  @include apply-gradient-styles;
+}
