@@ -1,0 +1,252 @@
+// 文件：_hidden-elements.scss
+// 隐藏特定元素的样式
+
+// 定义变量
+$border-width: 1px;
+$border-color: transparent;
+
+// 混合宏：隐藏边框
+@mixin hide-border($position: all) {
+  @if $position == all {
+    border: none;
+  } @else if $position == top {
+    border-top: none;
+  } @else if $position == bottom {
+    border-bottom: none;
+  } @else if $position == left {
+    border-left: none;
+  } @else if $position == right {
+    border-right: none;
+  }
+}
+
+// 混合宏：隐藏特定元素
+@mixin hide-element($type: display) {
+  @if $type == display {
+    display: none;
+  } @else if $type == visibility {
+    visibility: hidden;
+  } @else if $type == opacity {
+    opacity: 0;
+  } @else if $type == position {
+    position: absolute;
+    left: -9999px;
+  }
+}
+
+// 响应式隐藏混合宏
+@mixin responsive-hide($breakpoint: mobile) {
+  @if $breakpoint == mobile {
+    @media (max-width: 959px) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: 960px) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (min-width: 768px) and (max-width: 1199px) {
+      @content;
+    }
+  }
+}
+
+// 根样式
+:root {
+  // 响应式：桌面端文档页 Logo 文字下横条
+  @include responsive-hide(desktop) {
+    .VPNavBarTitle.has-sidebar .title {
+      border-bottom-color: transparent;
+      
+      // 可选：添加替代的装饰效果
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--vp-c-brand-1), transparent);
+        opacity: 0.5;
+      }
+    }
+  }
+  
+  // 页脚横条隐藏
+  .VPFooter {
+    @include hide-border(top);
+    
+    // 可选：添加其他样式增强页脚
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    
+    // 添加渐变分隔线替代
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+      margin-bottom: 1.5rem;
+      
+      .dark & {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      }
+    }
+  }
+  
+  // 移动端特定样式
+  @include responsive-hide(mobile) {
+    // 手机端菜单栏顶部横条隐藏
+    .VPNavBar.screen-open {
+      @include hide-border(bottom);
+    }
+    
+    // 手机端菜单栏菜单分割线隐藏
+    .VPNavScreenMenuLink {
+      @include hide-border(bottom);
+      
+      // 可选：添加其他视觉分隔
+      padding: 0.75rem 0;
+      position: relative;
+      
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+        right: 1rem;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.05);
+        
+        .dark & {
+          background: rgba(255, 255, 255, 0.05);
+        }
+      }
+    }
+    
+    // 手机端菜单组隐藏
+    .VPNavScreenMenuGroup {
+      @include hide-border(bottom);
+    }
+    
+    // 手机端大纲栏横条隐藏
+    .VPLocalNav {
+      @include hide-border(bottom);
+    }
+  }
+  
+  // 平板端适配
+  @include responsive-hide(tablet) {
+    .VPNavBarTitle.has-sidebar .title {
+      // 平板端保持原有样式
+      border-bottom-color: transparent;
+    }
+  }
+}
+
+// 导航栏下划线隐藏
+.divider {
+  @include hide-element(display);
+  
+  // 可选：使用其他方式实现分隔效果
+  &-alternative {
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+    margin: 0.5rem 0;
+    
+    .dark & {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    }
+  }
+}
+
+// 可选：隐藏其他元素
+.vp-doc {
+  // 隐藏特定标题的下划线
+  h1, h2, h3, h4, h5, h6 {
+    &[class*="anchor"] {
+      border-bottom: none;
+    }
+  }
+  
+  // 隐藏代码块的滚动条
+  pre {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+// 可选：隐藏特定组件的边框
+.VPSidebar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
+  // 保留功能性的边框
+  &.has-border {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    
+    .dark & {
+      border-right-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// 工具类：用于按需隐藏元素
+.hidden-border {
+  @include hide-border;
+}
+
+.hidden-border-top {
+  @include hide-border(top);
+}
+
+.hidden-border-bottom {
+  @include hide-border(bottom);
+}
+
+.hidden-border-left {
+  @include hide-border(left);
+}
+
+.hidden-border-right {
+  @include hide-border(right);
+}
+
+.hidden-element {
+  @include hide-element;
+}
+
+.visually-hidden {
+  @include hide-element(position);
+}
+
+// 主题特定的隐藏样式
+.theme-light {
+  .VPFooter::before {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+  }
+  
+  .VPNavScreenMenuLink:not(:last-child)::after {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.theme-dark {
+  .VPFooter::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+  
+  .VPNavScreenMenuLink:not(:last-child)::after {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}

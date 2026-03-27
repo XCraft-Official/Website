@@ -1,0 +1,186 @@
+// 文件：_blur-effects.scss
+// 毛玻璃效果样式
+
+// 定义变量
+$blur-amount: 10px;
+$bg-transparent: rgba(255, 255, 255, 0);
+$shadow-opacity: 0.15;
+$feature-shadow: 0 10px 30px 0 rgba(0, 0, 0, $shadow-opacity);
+
+// 混合宏：毛玻璃效果
+@mixin glass-morphism($blur: $blur-amount, $bg-color: $bg-transparent) {
+  background-color: $bg-color;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur); // Safari 支持
+  
+  // 可选：添加边框增强效果
+  // border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// 混合宏：特征卡片样式
+@mixin feature-card {
+  border: 1px solid transparent;
+  box-shadow: $feature-shadow;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px 0 rgba(0, 0, 0, $shadow-opacity + 0.05);
+  }
+}
+
+// 根样式
+:root {
+  // 首页下滑后导航透明
+  .VPNavBar:not(.has-sidebar):not(.home.top) {
+    @include glass-morphism;
+    
+    // 增强悬停效果
+    &:hover {
+      backdrop-filter: blur($blur-amount + 2px);
+      -webkit-backdrop-filter: blur($blur-amount + 2px);
+    }
+  }
+  
+  // 搜索框透明
+  .DocSearch-Button {
+    @include glass-morphism;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      @include glass-morphism($blur-amount + 2px);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    // 聚焦状态
+    &:focus {
+      @include glass-morphism($blur-amount + 5px);
+      outline: 2px solid rgba(var(--vp-c-brand-1), 0.3);
+      outline-offset: 2px;
+    }
+  }
+  
+  // Feature 卡片透明
+  .VPFeature {
+    @include feature-card;
+    
+    // 深色主题适配
+    .dark & {
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, $shadow-opacity + 0.1);
+      
+      &:hover {
+        box-shadow: 0 15px 40px 0 rgba(0, 0, 0, $shadow-opacity + 0.15);
+      }
+    }
+  }
+  
+  // 文档页侧边栏顶部透明
+  .curtain {
+    @include glass-morphism;
+    
+    // 添加渐变遮罩
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+      pointer-events: none;
+      z-index: 1;
+      
+      .dark & {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+      }
+    }
+  }
+  
+  // 移动端大纲栏透明
+  .VPLocalNav {
+    @include glass-morphism;
+    
+    // 添加底部边框
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
+      
+      .dark & {
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+      }
+    }
+  }
+  
+  // 响应式设计
+  @media (min-width: 960px) {
+    // 文档页导航中间透明
+    .VPNavBar:not(.home.top) .content-body {
+      @include glass-morphism;
+      border-radius: 12px;
+      margin: 8px 16px;
+      
+      // 添加内阴影增强深度感
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      
+      .dark & {
+        box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+  
+  // 移动端适配
+  @media (max-width: 959px) {
+    .VPNavBar:not(.has-sidebar):not(.home.top) {
+      @include glass-morphism(8px); // 移动端使用较小的模糊值
+    }
+    
+    .VPLocalNav {
+      @include glass-morphism(8px);
+    }
+  }
+  
+  // 触摸设备优化
+  @media (hover: none) and (pointer: coarse) {
+    .VPFeature {
+      &:hover {
+        transform: none; // 在触摸设备上禁用悬停效果
+      }
+    }
+  }
+}
+
+// 可选：为其他元素添加毛玻璃效果
+.custom-blur-element {
+  @include glass-morphism;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  .dark & {
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+// 浏览器兼容性回退
+@supports not (backdrop-filter: blur(10px)) {
+  :root {
+    .VPNavBar:not(.has-sidebar):not(.home.top),
+    .DocSearch-Button,
+    .curtain,
+    .VPLocalNav,
+    .VPNavBar:not(.home.top) .content-body {
+      background-color: rgba(255, 255, 255, 0.9);
+      
+      .dark & {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
+}
