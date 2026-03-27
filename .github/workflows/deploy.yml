@@ -34,9 +34,9 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: 38.76.214.139
-          REMOTE_USER: deploy
-          REMOTE_PORT: 31456
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}        # 服务器 IP
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}        # 用户名
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}        # SSH 端口
           SOURCE: "docs/.vitepress/dist/"
-          TARGET: "/sd2/sites/xcweb"
+          TARGET: ${{ secrets.REMOTE_TARGET }}           # 目标路径
           ARGS: "-avz --delete"
