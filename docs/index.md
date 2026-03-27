@@ -6,6 +6,9 @@ hero:
   name: "XCraft"
   text: "Official Website"
   tagline: 生存 · 玩法 · 社区
+  image:
+    src: /pic.png
+    alt: XCraft
   actions:
     - theme: brand
       text: 加入官方Q群
