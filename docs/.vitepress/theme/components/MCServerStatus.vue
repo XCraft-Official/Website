@@ -16,27 +16,54 @@ interface ServerStatus {
   timestamp: number
   motd: string
   icon?: string
+  address?: string
+  port?: number
 }
 
 interface Props {
   serverName?: string
+  serverAddress?: string
+  serverPort?: number
+  showPort?: boolean
   apiUrl?: string
   autoRefresh?: boolean
   refreshInterval?: number
+  showDisclaimer?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   serverName: 'Infinite_Java',
+  serverAddress: '',
+  serverPort: 25565,
+  showPort: false,
   apiUrl: 'https://api.unborder.online',
   autoRefresh: true,
-  refreshInterval: 60000
+  refreshInterval: 60000,
+  showDisclaimer: true
 })
 
 const status = ref<ServerStatus | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const lastUpdate = ref<Date | null>(null)
+const copySuccess = ref(false)
 let refreshTimer: ReturnType<typeof setInterval> | null = null
+
+const displayAddress = computed(() => {
+  if (props.serverAddress) {
+    if (props.showPort) {
+      return `${props.serverAddress}:${props.serverPort}`
+    }
+    return props.serverAddress
+  }
+  if (status.value?.address) {
+    if (props.showPort) {
+      return `${status.value.address}:${status.value.port || 25565}`
+    }
+    return status.value.address
+  }
+  return ''
+})
 
 const onlinePercentage = computed(() => {
   if (!status.value?.players) return 0
@@ -98,6 +125,20 @@ function manualRefresh() {
   fetchServerStatus()
 }
 
+async function copyAddress() {
+  if (!displayAddress.value) return
+  
+  try {
+    await navigator.clipboard.writeText(displayAddress.value)
+    copySuccess.value = true
+    setTimeout(() => {
+      copySuccess.value = false
+    }, 2000)
+  } catch (e) {
+    console.error('复制失败:', e)
+  }
+}
+
 onMounted(() => {
   fetchServerStatus()
   startAutoRefresh()
@@ -134,6 +175,17 @@ onUnmounted(() => {
         <span class="status-dot"></span>
         {{ statusText }}
       </div>
+    </div>
+    
+    <div v-if="displayAddress" class="server-address-section">
+      <div class="address-label">服务器地址</div>
+      <div class="address-box" @click="copyAddress" :title="'点击复制: ' + displayAddress">
+        <code class="address-text">{{ displayAddress }}</code>
+        <span class="copy-icon" :class="{ 'copy-success': copySuccess }">
+          {{ copySuccess ? '✓' : '📋' }}
+        </span>
+      </div>
+      <span v-if="copySuccess" class="copy-hint">已复制到剪贴板</span>
     </div>
     
     <div v-if="status?.online" class="server-details">
@@ -182,6 +234,13 @@ onUnmounted(() => {
       <button class="refresh-btn" @click="manualRefresh" :disabled="loading">
         <span :class="{ 'spinning': loading }">🔄</span>
       </button>
+    </div>
+    
+    <div v-if="showDisclaimer" class="server-disclaimer">
+      <span class="disclaimer-icon">ℹ️</span>
+      <span class="disclaimer-text">
+        数据仅供参考，实际状态以游戏内为准。服务器信息由第三方 API 提供，本站不保证其准确性和实时性。
+      </span>
     </div>
   </div>
 </template>
@@ -308,6 +367,66 @@ onUnmounted(() => {
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+.server-address-section {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.address-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.375rem;
+}
+
+.address-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--vp-c-bg-alt, #f1f1f1);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.address-box:hover {
+  border-color: var(--vp-c-brand-1, #18794e);
+  background: var(--vp-c-bg, #ffffff);
+}
+
+.address-text {
+  font-family: 'SF Mono', Monaco, 'Andale Mono', monospace;
+  font-size: 0.9375rem;
+  color: var(--text-color);
+  background: transparent;
+  padding: 0;
+}
+
+.copy-icon {
+  font-size: 0.875rem;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.address-box:hover .copy-icon {
+  opacity: 1;
+}
+
+.copy-icon.copy-success {
+  color: #10b981;
+  opacity: 1;
+}
+
+.copy-hint {
+  display: block;
+  font-size: 0.6875rem;
+  color: #10b981;
+  margin-top: 0.25rem;
+  text-align: right;
 }
 
 .server-details {
@@ -456,6 +575,28 @@ onUnmounted(() => {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.server-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--vp-c-brand-1, #18794e) 8%, transparent);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.disclaimer-icon {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}
+
+.disclaimer-text {
+  flex: 1;
 }
 
 @media (max-width: 480px) {
