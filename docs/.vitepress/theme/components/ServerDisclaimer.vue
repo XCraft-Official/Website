@@ -18,7 +18,7 @@ withDefaults(defineProps<Props>(), {
     </div>
     <div class="disclaimer-content">
       <slot>
-        <p>"Minecraft" 和 "我的世界" 是 Mojang AB 的注册商标。"Craft" 与 Mojang 或 Microsoft 无任何关联。</p>
+        <p>"Minecraft" 和 "我的世界" 是 Mojang AB 的注册商标。"XCraft" 与 Mojang 或 Microsoft 无任何关联。</p>
         <p>"XCraft" 是一个独立的社区服务器，非 Minecraft 官方服务器。</p>
       </slot>
     </div>
