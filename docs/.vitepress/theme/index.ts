@@ -5,6 +5,8 @@ import { useRouter } from 'vitepress'
 import MCServerStatus from './components/MCServerStatus.vue'
 import ServerDisclaimer from './components/ServerDisclaimer.vue'
 import FriendLinks from './components/FriendLinks.vue'
+import SponsorWall from './components/SponsorWall.vue'
+import SiteFooter from './components/SiteFooter.vue'
 
 let homePageStyle: HTMLStyleElement | undefined
 
@@ -15,6 +17,8 @@ export default {
     app.component('MCServerStatus', MCServerStatus)
     app.component('ServerDisclaimer', ServerDisclaimer)
     app.component('FriendLinks', FriendLinks)
+    app.component('SponsorWall', SponsorWall)
+    app.component('SiteFooter', SiteFooter)
   },
   
   setup() {

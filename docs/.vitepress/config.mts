@@ -8,8 +8,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
-      { text: '友情链接', link: '/friends' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '赞助支持', link: '/sponsor' },
+      { text: '友情链接', link: '/friends' }
     ],
 
     socialLinks: [
