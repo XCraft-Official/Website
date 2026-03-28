@@ -3,6 +3,7 @@ import './style/index.scss'
 import { watch } from 'vue'
 import { useRouter } from 'vitepress'
 import MCServerStatus from './components/MCServerStatus.vue'
+import ServerDisclaimer from './components/ServerDisclaimer.vue'
 
 let homePageStyle: HTMLStyleElement | undefined
 
@@ -11,6 +12,7 @@ export default {
   
   enhanceApp({ app }) {
     app.component('MCServerStatus', MCServerStatus)
+    app.component('ServerDisclaimer', ServerDisclaimer)
   },
   
   setup() {

@@ -408,7 +408,7 @@ onUnmounted(() => {
 }
 
 .address-text {
-  font-family: 'SF Mono', Monaco, 'Andale Mono', 'Consolas', monospace;
+  font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-color);
@@ -536,7 +536,7 @@ onUnmounted(() => {
   margin: 0;
   font-size: 0.9375rem;
   color: var(--text-color);
-  font-family: monospace;
+  font-family: inherit;
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.5;
