@@ -34,3 +34,5 @@ features:
   :serverPort="25565"
   :showPort="false"
 />
+
+<ServerDisclaimer />
