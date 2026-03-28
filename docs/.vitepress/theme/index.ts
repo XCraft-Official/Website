@@ -1,13 +1,17 @@
-/* .vitepress/theme/index.ts */
 import DefaultTheme from 'vitepress/theme'
 import './style/index.scss'
 import { watch } from 'vue'
 import { useRouter } from 'vitepress'
+import MCServerStatus from './components/MCServerStatus.vue'
 
 let homePageStyle: HTMLStyleElement | undefined
 
 export default {
   extends: DefaultTheme,
+  
+  enhanceApp({ app }) {
+    app.component('MCServerStatus', MCServerStatus)
+  },
   
   setup() {
     const router = useRouter()
@@ -22,7 +26,6 @@ export default {
   },
 }
 
-// 彩虹背景动画样式
 function updateHomePageStyle(value: boolean) {
   if (value) {
     if (homePageStyle) return
