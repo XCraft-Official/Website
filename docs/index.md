@@ -36,3 +36,6 @@ features:
 />
 
 <ServerDisclaimer />
+<SiteFooter 
+  copyright="XCraft" 
+/>
