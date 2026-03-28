@@ -29,8 +29,6 @@ features:
     details: 旗下多服链接，可快捷加入其他玩法服务器.
 ---
 
-<MCServerStatus serverAddress="unborder.online" />
-
 <MCServerStatus 
   serverAddress="unborder.online" 
   :serverPort="25565"
