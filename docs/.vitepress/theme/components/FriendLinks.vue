@@ -10,17 +10,15 @@ interface Props {
   links?: FriendLink[]
 }
 
-const defaultLinks: FriendLink[] = [
-  {
-    name: 'XCraft',
-    url: 'https://example.com',
-    avatar: '/pic/logo.png',
-    description: '一个有趣的 Minecraft 服务器'
-  }
-]
-
 const props = withDefaults(defineProps<Props>(), {
-  links: () => defaultLinks
+  links: () => [
+    {
+      name: 'XCraft',
+      url: 'https://example.com',
+      avatar: '/pic/logo.png',
+      description: '一个有趣的 Minecraft 服务器'
+    }
+  ]
 })
 
 function getInitial(name: string): string {
