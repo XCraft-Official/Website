@@ -1,110 +1,19 @@
 // 文件：theme-transition.scss
 // 昼夜主题切换动画
 
-// 需要过渡的 CSS 变量列表
-$transition-properties: (
-  --vp-c-brand-1,
-  --vp-c-brand-2,
-  --vp-c-brand-3,
-  --vp-c-bg,
-  --vp-c-bg-soft,
-  --vp-c-bg-mute,
-  --vp-c-bg-alt,
-  --vp-c-text-1,
-  --vp-c-text-2,
-  --vp-c-text-3,
-  --vp-c-border,
-  --vp-c-divider,
-  --vp-c-gutter,
-  --vp-c-sponsor,
-  --vp-button-alt-border,
-  --vp-button-alt-text,
-  --vp-button-alt-bg,
-  --vp-button-sponsor-border,
-  --vp-button-sponsor-text,
-  --vp-button-sponsor-bg,
-  --vp-home-hero-name-background,
-  --vp-home-hero-image-background-image
-);
-
 // 过渡动画时长
 $transition-duration: 0.4s;
 
 // 过渡动画缓动函数
 $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 
-// 生成过渡属性字符串
-$transition-value: ();
-@each $prop in $transition-properties {
-  $transition-value: append($transition-value, $prop $transition-duration $transition-timing, comma);
-}
+// 基础过渡值
+$base-transition: $transition-duration $transition-timing;
 
-// 应用过渡动画
-:root {
-  transition: $transition-value;
-  
-  // 全局背景色过渡
-  &,
-  body {
-    transition: 
-      background-color $transition-duration $transition-timing,
-      color $transition-duration $transition-timing;
-  }
-  
-  // 常见元素过渡
-  .VPNav,
-  .VPSidebar,
-  .VPContent,
-  .VPDoc,
-  .VPFooter,
-  .VPHomeHero,
-  .VPFeature,
-  .VPFeatureBox,
-  .vp-doc,
-  .container {
-    transition: 
-      background-color $transition-duration $transition-timing,
-      border-color $transition-duration $transition-timing,
-      box-shadow $transition-duration $transition-timing;
-  }
-  
-  // 链接和按钮过渡
-  a,
-  button,
-  .VPButton,
-  .VPLink {
-    transition: 
-      color $transition-duration $transition-timing,
-      background-color $transition-duration $transition-timing,
-      border-color $transition-duration $transition-timing;
-  }
-  
-  // 代码块过渡
-  pre,
-  code,
-  .vp-code-group,
-  .vp-code-group-tabs {
-    transition: 
-      background-color $transition-duration $transition-timing,
-      border-color $transition-duration $transition-timing,
-      color $transition-duration $transition-timing;
-  }
-  
-  // 图片过渡（可选：添加滤镜变化）
-  img {
-    transition: 
-      filter $transition-duration $transition-timing,
-      opacity $transition-duration $transition-timing;
-  }
-  
-  // 暗色模式下图片变暗效果
-  &.dark img {
-    filter: brightness(0.9) contrast(1.1);
-  }
-}
-
-// 主题切换时的闪烁抑制
+// 对 html 和 body 应用过渡
 html {
+  transition: background-color $base-transition;
+  
   &.dark {
     color-scheme: dark;
   }
@@ -114,40 +23,225 @@ html {
   }
 }
 
-// 平滑滚动配合主题切换
+body {
+  transition: 
+    background-color $base-transition,
+    color $base-transition;
+}
+
+// VitePress 核心组件过渡
+.VPApp {
+  transition: background-color $base-transition;
+}
+
+.VPNav {
+  transition: 
+    background-color $base-transition,
+    border-color $base-transition;
+}
+
+.VPSidebar {
+  transition: background-color $base-transition;
+}
+
+.VPLocalNav {
+  transition: 
+    background-color $base-transition,
+    border-color $base-transition;
+}
+
+.VPContent {
+  transition: background-color $base-transition;
+}
+
+.VPDoc {
+  transition: background-color $base-transition;
+}
+
+.VPFooter {
+  transition: 
+    background-color $base-transition,
+    border-color $base-transition;
+}
+
+// 首页 Hero 过渡
+.VPHomeHero {
+  transition: background-color $base-transition;
+  
+  .name,
+  .tagline {
+    transition: color $base-transition;
+  }
+  
+  .image-bg {
+    transition: background $base-transition;
+  }
+}
+
+// Feature 卡片过渡
+.VPFeature {
+  transition: 
+    background-color $base-transition,
+    border-color $base-transition,
+    box-shadow $base-transition;
+}
+
+.VPFeatureBox {
+  transition: 
+    background-color $base-transition,
+    border-color $base-transition;
+}
+
+// 文档内容过渡
+.vp-doc {
+  transition: color $base-transition;
+  
+  h1, h2, h3, h4, h5, h6 {
+    transition: color $base-transition;
+  }
+  
+  p, li, td, th {
+    transition: color $base-transition;
+  }
+}
+
+// 链接过渡
+a {
+  transition: 
+    color $base-transition,
+    background-color $base-transition,
+    border-color $base-transition;
+}
+
+// 按钮过渡
+button,
+.VPButton {
+  transition: 
+    color $base-transition,
+    background-color $base-transition,
+    border-color $base-transition;
+}
+
+.VPLink {
+  transition: color $base-transition;
+}
+
+// 代码块过渡
+pre,
+code {
+  transition: 
+    background-color $base-transition,
+    border-color $base-transition,
+    color $base-transition;
+}
+
+.vp-code-group {
+  transition: background-color $base-transition;
+}
+
+.vp-code-group-tabs {
+  transition: background-color $base-transition;
+}
+
+// 行内代码
+:not(pre) > code {
+  transition: 
+    background-color $base-transition,
+    color $base-transition;
+}
+
+// 引用块过渡
+blockquote {
+  transition: 
+    border-color $base-transition,
+    color $base-transition;
+}
+
+// 分隔线过渡
+hr {
+  transition: border-color $base-transition;
+}
+
+// 表格过渡
+table {
+  transition: border-color $base-transition;
+}
+
+th, td {
+  transition: 
+    border-color $base-transition,
+    background-color $base-transition;
+}
+
+// 图片过渡
+img {
+  transition: 
+    filter $base-transition,
+    opacity $base-transition;
+}
+
+html.dark img {
+  filter: brightness(0.9) contrast(1.1);
+}
+
+// 侧边栏项目过渡
+.VPSidebarItem {
+  transition: background-color $base-transition;
+  
+  .text {
+    transition: color $base-transition;
+  }
+}
+
+// 导航菜单过渡
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup {
+  transition: color $base-transition;
+}
+
+// 搜索框过渡
+.VPLocalSearchBox,
+.DocSearch {
+  transition: background-color $base-transition;
+}
+
+// 平滑滚动
 @media (prefers-reduced-motion: no-preference) {
-  :root {
+  html {
     scroll-behavior: smooth;
   }
 }
 
 // 尊重用户的减少动画偏好
 @media (prefers-reduced-motion: reduce) {
-  :root {
+  html,
+  body,
+  .VPApp,
+  .VPNav,
+  .VPSidebar,
+  .VPLocalNav,
+  .VPContent,
+  .VPDoc,
+  .VPFooter,
+  .VPHomeHero,
+  .VPFeature,
+  .VPFeatureBox,
+  .vp-doc,
+  a,
+  button,
+  .VPButton,
+  .VPLink,
+  pre,
+  code,
+  .vp-code-group,
+  .vp-code-group-tabs,
+  blockquote,
+  hr,
+  table,
+  th,
+  td,
+  img,
+  .VPSidebarItem {
     transition: none !important;
-    
-    &,
-    body,
-    .VPNav,
-    .VPSidebar,
-    .VPContent,
-    .VPDoc,
-    .VPFooter,
-    .VPHomeHero,
-    .VPFeature,
-    .VPFeatureBox,
-    .vp-doc,
-    .container,
-    a,
-    button,
-    .VPButton,
-    .VPLink,
-    pre,
-    code,
-    .vp-code-group,
-    .vp-code-group-tabs,
-    img {
-      transition: none !important;
-    }
   }
 }
