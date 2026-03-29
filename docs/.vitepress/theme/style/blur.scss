@@ -13,8 +13,8 @@ $feature-shadow: 0 10px 30px 0 rgba(0, 0, 0, $shadow-opacity);
   backdrop-filter: blur($blur);
   -webkit-backdrop-filter: blur($blur); // Safari 支持
   
-  // 可选：添加边框增强效果
-  // border: 1px solid rgba(255, 255, 255, 0.1);
+  // 添加 will-change 优化性能
+  will-change: backdrop-filter;
 }
 
 // 混合宏：特征卡片样式
@@ -32,8 +32,13 @@ $feature-shadow: 0 10px 30px 0 rgba(0, 0, 0, $shadow-opacity);
 
 // 根样式
 :root {
-  // 首页下滑后导航透明
+  // 首页下滑后导航透明 - 添加定位和 z-index 确保稳定性
   .VPNavBar:not(.has-sidebar):not(.home.top) {
+    position: sticky;
+    top: 0;
+    z-index: 1000; // 确保足够高的层级
+    will-change: transform; // 优化滚动性能
+    
     @include glass-morphism;
     
     // 增强悬停效果
