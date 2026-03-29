@@ -3,12 +3,12 @@
 
 // 定义变量
 $marker-colors: (
-  evy: rgba(79, 192, 141, 0.5),  // 默认颜色
-  yellow: rgba(255, 235, 59, 0.5),  // 黄色
-  blue: rgba(33, 150, 243, 0.5),    // 蓝色
-  pink: rgba(233, 30, 99, 0.5),     // 粉色
-  purple: rgba(156, 39, 176, 0.5),  // 紫色
-  orange: rgba(255, 152, 0, 0.5)    // 橙色
+  "evy": rgba(79, 192, 141, 0.5),
+  "yellow": rgba(255, 235, 59, 0.5),
+  "blue": rgba(33, 150, 243, 0.5),
+  "pink": rgba(233, 30, 99, 0.5),
+  "purple": rgba(156, 39, 176, 0.5),
+  "orange": rgba(255, 152, 0, 0.5)
 );
 
 $marker-transition: 200ms cubic-bezier(0, 0.8, 0.13, 1);
@@ -243,11 +243,11 @@ $marker-z-index: -1;
   // 链接中的标记
   a .marker-evy {
     &::after {
-      background-color: rgba(var(--vp-c-brand-1-rgb), 0.5);
+      background-color: color-mix(in srgb, var(--vp-c-brand-1, #18794e) 50%, transparent);
     }
     
     &:hover::after {
-      background-color: rgba(var(--vp-c-brand-2-rgb), 0.7);
+      background-color: color-mix(in srgb, var(--vp-c-brand-2, #299764) 70%, transparent);
     }
   }
   

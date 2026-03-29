@@ -57,7 +57,7 @@ $feature-shadow: 0 10px 30px 0 rgba(0, 0, 0, $shadow-opacity);
     // 聚焦状态
     &:focus {
       @include glass-morphism($blur-amount + 5px);
-      outline: 2px solid rgba(var(--vp-c-brand-1), 0.3);
+      outline: 2px solid color-mix(in srgb, var(--vp-c-brand-1, #18794e) 30%, transparent);
       outline-offset: 2px;
     }
   }
