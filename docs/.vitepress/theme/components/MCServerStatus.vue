@@ -287,12 +287,16 @@ onUnmounted(() => {
 }
 
 .server-icon {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   flex-shrink: 0;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--vp-c-bg-alt, #f1f1f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .server-icon img {
@@ -300,6 +304,8 @@ onUnmounted(() => {
   height: 100%;
   object-fit: contain;
   image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .icon-placeholder {
