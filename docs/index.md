@@ -37,19 +37,22 @@ features:
 
 <ServerDisclaimer />
 <style>
-/*爱的魔力转圈圈*/
-.m-home-layout .image-src:hover {
+/* 爱的魔力转圈圈 */
+.VPHero .image-src {
+  transition: transform 0.5s ease;
+}
+
+.VPHero .image-src:hover {
   transform: translate(-50%, -50%) rotate(666turn);
   transition: transform 59s 1s cubic-bezier(0.3, 0, 0.8, 1);
 }
 
-.m-home-layout .details small {
-  opacity: 0.8;
+.VPHero .image-bg {
+  transition: transform 0.5s ease;
 }
 
-.m-home-layout .bottom-small {
-  display: block;
-  margin-top: 2em;
-  text-align: right;
+.VPHero:hover .image-bg {
+  transform: scale(1.1);
+  transition: transform 0.5s ease;
 }
 </style>
