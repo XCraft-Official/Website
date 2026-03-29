@@ -5,7 +5,6 @@ interface Sponsor {
   amount?: string
   date?: string
   message?: string
-  tier?: 'diamond' | 'gold' | 'silver' | 'bronze'
 }
 
 interface Props {
@@ -20,20 +19,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 function getInitial(name: string): string {
   return name.charAt(0).toUpperCase()
-}
-
-function getTierClass(tier?: string): string {
-  return tier || 'default'
-}
-
-function getTierLabel(tier?: string): string {
-  const labels: Record<string, string> = {
-    diamond: '钻石赞助',
-    gold: '金牌赞助',
-    silver: '银牌赞助',
-    bronze: '铜牌赞助'
-  }
-  return labels[tier || ''] || ''
 }
 </script>
 
@@ -51,16 +36,12 @@ function getTierLabel(tier?: string): string {
         v-for="(sponsor, index) in sponsors"
         :key="index"
         class="sponsor-card"
-        :class="getTierClass(sponsor.tier)"
       >
         <div class="sponsor-avatar">
           <img v-if="sponsor.avatar" :src="sponsor.avatar" :alt="sponsor.name" />
           <div v-else class="avatar-placeholder">
             {{ getInitial(sponsor.name) }}
           </div>
-          <span v-if="sponsor.tier" class="tier-badge" :class="sponsor.tier">
-            {{ getTierLabel(sponsor.tier) }}
-          </span>
         </div>
         <div class="sponsor-info">
           <h4 class="sponsor-name">{{ sponsor.name }}</h4>
@@ -129,26 +110,6 @@ function getTierLabel(tier?: string): string {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-.sponsor-card.diamond {
-  border-color: #a855f7;
-  background: linear-gradient(135deg, color-mix(in srgb, #a855f7 8%, var(--vp-c-bg-soft)), var(--vp-c-bg-soft));
-}
-
-.sponsor-card.gold {
-  border-color: #f59e0b;
-  background: linear-gradient(135deg, color-mix(in srgb, #f59e0b 8%, var(--vp-c-bg-soft)), var(--vp-c-bg-soft));
-}
-
-.sponsor-card.silver {
-  border-color: #6b7280;
-  background: linear-gradient(135deg, color-mix(in srgb, #6b7280 6%, var(--vp-c-bg-soft)), var(--vp-c-bg-soft));
-}
-
-.sponsor-card.bronze {
-  border-color: #cd7f32;
-  background: linear-gradient(135deg, color-mix(in srgb, #cd7f32 6%, var(--vp-c-bg-soft)), var(--vp-c-bg-soft));
-}
-
 .sponsor-avatar {
   position: relative;
   flex-shrink: 0;
@@ -170,38 +131,6 @@ function getTierLabel(tier?: string): string {
   color: white;
   font-weight: 700;
   font-size: 1.125rem;
-}
-
-.tier-badge {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.5625rem;
-  padding: 0.125rem 0.375rem;
-  border-radius: 4px;
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.tier-badge.diamond {
-  background: #a855f7;
-  color: white;
-}
-
-.tier-badge.gold {
-  background: #f59e0b;
-  color: white;
-}
-
-.tier-badge.silver {
-  background: #6b7280;
-  color: white;
-}
-
-.tier-badge.bronze {
-  background: #cd7f32;
-  color: white;
 }
 
 .sponsor-info {
